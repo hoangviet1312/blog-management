@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col col-3"></div>
+        <div class="col col-6">
+            <a href="/create-blog">Create new blog</a>
+            <h1 style="text-align: center">Blogs</h1>
+            <form>
+                Search by blogName:
+                <input type="text" name="s"/>
+                <input type="submit" value="Search"/>
+            </form>
+            <table border="1" class="table">
+                <tr>
+                    <th>Blog name</th>
+                    <th>Content</th>
+                    <th>Category</th>
+                    <th colspan="3">Option</th>
+                </tr>
+                <th:block th:each="blog : ${blogs}">
+                    <tr>
+                        <td th:text="${blog.blogName}"></td>
+                        <td th:text="${blog.blogContent}"></td>
+                        <td th:text="${blog.category.categoryName}"></td>
+                        <td><a th:href="@{/edit-blog/__${blog.id}__ }">Edit</a></td>
+                        <td><a th:href="@{/delete-blog/__${blog.id}__ }">Delete</a></td>
+                        <td><a th:href="@{/view-blog/__${blog.id}__}">View</a></td>
+                    </tr>
+                </th:block>
+            </table>
+            <div>
+                <a th:href="@{'/customers'(page=${blogs.number - 1})}" th:if="${blogs.hasPrevious()}">Previous</a>
+                <span th:text="${blogs.number + 1}"></span>......<span th:text="${blogs.totalPages}"></span>
+                <a th:href="@{'/customers'(page=${blogs.number + 1})}" th:if="${blogs.hasNext()}">Next</a>
+            </div>
+        </div>
+        <div class="col col-3"></div>
+    </div>
+</div>
+</body>
+</html>
